@@ -12,6 +12,8 @@ services:
       POSTGRES_DB: hospital_colmenalab
     ports:
       - '5432:5432'
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -39,6 +41,11 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
       DB_DATABASE: hospital_colmenalab
+      JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
+      JWT_EXPIRATION: 1h
+      JWT_REFRESH_SECRET: your-refresh-secret-key
+      JWT_REFRESH_EXPIRATION: 7d
+      API_PREFIX: api/v1
     depends_on:
       postgres:
         condition: service_healthy
