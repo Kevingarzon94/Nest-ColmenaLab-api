@@ -28,7 +28,7 @@ Microservicio para gestión hospitalaria desarrollado con NestJS, PostgreSQL y J
 ```bash
 # Clonar repositorio
 git clone <repository-url>
-cd colmenalab-api
+cd Nest-ColmenaLab-api
 
 # Configurar variables de entorno
 cp .env.example .env
