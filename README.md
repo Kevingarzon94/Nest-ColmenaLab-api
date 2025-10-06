@@ -35,7 +35,7 @@ cp .env.example .env
 # Editar .env con tus valores
 
 # Levantar servicios
-docker compose up -d
+docker compose up -d --build
 
 # Ver logs
 docker compose logs -f app
