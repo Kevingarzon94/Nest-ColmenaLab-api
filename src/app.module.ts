@@ -36,6 +36,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }),
       inject: [ConfigService],
     }),
+
+    AuthModule,
     PatientsModule,
     DoctorsModule,
     AppointmentsModule,

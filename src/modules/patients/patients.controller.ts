@@ -10,22 +10,28 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Controller } from '@nestjs/common';
 import { PatientsService } from './patients.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { UserRole } from '../auth/entities/user.entity';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @ApiTags('Patient')
 @Controller('patients')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@ApiBearerAuth('JWT-auth')
 export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
 
-  @UseGuards(JwtAuthGuard)
-  @Roles(UserRole.ADMIN, UserRole.DOCTOR)
   @Post()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Register a new patient' })
@@ -45,8 +51,6 @@ export class PatientsController {
     return this.patientsService.create(CreatePatientDto);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Roles(UserRole.ADMIN, UserRole.DOCTOR)
   @Get()
   @ApiOperation({ summary: 'List all patients' })
   @ApiResponse({
@@ -57,8 +61,6 @@ export class PatientsController {
     return this.patientsService.findALL();
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Roles(UserRole.ADMIN, UserRole.DOCTOR)
   @Get('search')
   @ApiOperation({ summary: 'Find patients by identification' })
   @ApiQuery({
@@ -79,8 +81,6 @@ export class PatientsController {
     return this.patientsService.findByIdentification(id);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Roles(UserRole.ADMIN, UserRole.DOCTOR)
   @Get(':id')
   @ApiOperation({ summary: 'Patient with id' })
   @ApiParam({
@@ -100,8 +100,6 @@ export class PatientsController {
     return this.patientsService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Roles(UserRole.ADMIN, UserRole.DOCTOR)
   @Patch(':id')
   @ApiOperation({ summary: 'Update a patient' })
   @ApiParam({
